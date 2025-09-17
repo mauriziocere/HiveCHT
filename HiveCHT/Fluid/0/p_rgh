@@ -1,0 +1,58 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 | OpenFOAM: The Open Source CFD Toolbox          |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      p_rgh;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 103500;
+
+boundaryField
+{
+    inlet
+    {
+        type    zeroGradient;
+    }
+
+    outlet
+    {
+        type    fixedValue;
+        value   uniform 103500;    
+    }
+
+    bottom
+    {
+        type    zeroGradient;
+    }
+
+    top
+    {
+        type    zeroGradient;
+    }
+
+    SolidHole
+    {
+        type    zeroGradient;
+    }
+
+    BroodHole
+    {
+        type    zeroGradient;
+    }
+
+    frontAndBack
+    {
+        type    empty;
+    }
+}
+
+
+

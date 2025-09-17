@@ -1,0 +1,52 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      T;
+}
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 278.15;
+
+boundaryField
+{
+    inlet
+    {
+        type            fixedValue;
+        value           $internalField;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    bottom
+    {
+        type            zeroGradient;
+    }
+
+    top
+    {
+        type            zeroGradient;
+    }
+
+    SolidHole
+    {
+        type            fixedGradient;
+        gradient        uniform 0;
+    }
+     BroodHole
+    {
+        type            fixedGradient;
+        gradient        uniform 0;
+    }
+
+    frontAndBack
+    {
+        type            empty;
+    }
+}

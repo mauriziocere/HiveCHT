@@ -1,0 +1,103 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+
+solvers
+{
+    "rho.*"
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       0;
+        relTol          0;
+    }
+
+    p_rgh
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-8;
+        relTol          0.05;
+        maxIter         1000;
+    }
+
+    p_rghFinal
+    {
+        $p_rgh;
+        relTol          0;
+    }
+
+    "(U|h|e|k|epsilon|R|omega)"
+    {
+        solver          PBiCGStab;
+        preconditioner  DILU;
+        tolerance       1e-6;
+        relTol          0.1;
+    }
+
+    "(U|h|e|k|epsilon|R|omega)Final"
+    {
+        $U;
+        relTol          0;
+    }
+        nuTilda
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+        tolerance       1e-8;
+        relTol          0.1;
+    }
+}
+
+PIMPLE
+{
+    nOuterCorrectors           3;
+    nCorrectors                2;
+    nNonOrthogonalCorrectors   0;
+    pRefCell                   0;
+    pRefValue                  0;
+
+    residualControl
+    {
+        p_rgh
+        {
+            relTol      0;
+            tolerance   1e-3;
+        }
+        U
+        {
+            relTol      0;
+            tolerance   1e-4;
+        }
+        h
+        {
+            relTol      0;
+            tolerance   1e-4;
+        }
+        "(k|omega|nuTilda)"
+        {
+            relTol      0;
+            tolerance   1e-6;
+        }
+    }
+}
+
+
+relaxationFactors
+{
+  equations
+  {
+    U     0.5;
+    h     0.5;
+    p_rgh 0.3;
+    k               0.7;
+    omega           0.7;
+    nuTilda         0.7;
+  }
+}
+
